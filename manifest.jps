@@ -9,12 +9,9 @@ logo: images/minio-logo-70x70.png
 categories: [ apps/file-manager ]
 description:
   text: |
-    Minio is an object storage server, compatible with Amazon S3 cloud storage
-    service, best suited for storing unstructured data such as photos, videos, log
-    files and backups.
+    This is a mongo cluster that is only to be used by the platform owners. Please do not use this without the relavant licence agreements.
   short: |
-    Automated clusterization for a reliable and cost-effective Minio storage
-    to keep your unstructured data in a cloud.
+    Automated clusterization for a reliable and cost-effective Mongo instance.
 
 globals:
   accessKey: ${fn.password}
