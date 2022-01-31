@@ -14,8 +14,7 @@ description:
     Automated clusterization for a reliable and cost-effective Mongo instance.
 
 globals:
-  accessKey: ${fn.password}
-  secretKey: ${fn.password}
+  dbpassword: ${fn.password}
   
 settings:
   fields:
@@ -37,7 +36,7 @@ nodes:
   image: mongo
   env:
     MONGO_INITDB_ROOT_USERNAME: root
-    MONGO_INITDB_ROOT_PASSWORD: ${globals.secretKey}
+    MONGO_INITDB_ROOT_PASSWORD: ${globals.dbpassword}
     PORT: 8081
   cmd: --help
   volumes: 
