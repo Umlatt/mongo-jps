@@ -1,4 +1,4 @@
-Admin Panel: [${env.url}](${env.url})  
+Admin Panel: [${env.url}:27017](${env.url}:27017)  
 --- mongo ---\
 User: mongoadmin\
 Password: ${globals.dbpassword}\
