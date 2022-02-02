@@ -53,5 +53,5 @@
       "cmd [cp]": "touch testfile2"
     }
   },
-  "success": "/texts/success.md"
+  "success": "/text/success.md"
 }
