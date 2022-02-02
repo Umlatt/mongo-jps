@@ -24,20 +24,7 @@
       "nodeGroup": "cp",
       "image": "mongo:5.0.2",
       "extip": false,
-      "env": "JELASTIC_EXPOSE: 8081"
-    },
-    {
-      "cloudlets": 16,
-      "nodeGroup": "cp",
-      "image": "mongo:5.0.2", 
-      "extip": false,
-      "env": "JELASTIC_EXPOSE: 8081"
-    },
-    {
-      "cloudlets": 16,
-      "nodeGroup": "cp",
-      "image": "mongo:5.0.2", 
-      "extip": false,
+      "count" : "3",
       "env": "JELASTIC_EXPOSE: 8081"
     }
   ],
@@ -50,7 +37,7 @@
       "cmd [cp]": "echo 'NOT FOR USE' > README.md"
     },
     "step2": {
-      "cmd [cp]": "echo 'This deployment is not intended for public cloud use.' >> README.md"
+      "cmd [cp]": "echo '${fn.password(20)}' >> README.md"
     }
   },
   "success": "/text/success.md"
