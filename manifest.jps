@@ -36,8 +36,8 @@
     {
       "cloudlets": 16,
       "nodeGroup": "cp",
-      "image": "mongo",
-      "extip": false,
+      "image": "mongo", 
+      "extip": true,
       "env": "JELASTIC_EXPOSE: 8081"
     }
   ],
@@ -47,10 +47,10 @@
   ],
   "actions": {
     "getConfig": {
-      "cmd [cp]": "mkdir /etc/3cxpbx\nsed -i -re '/mesg n\ntrue/d' /root/.profile && echo 'if `tty -s`; then  mesg n ; fi' >>/root/.profile\nwget  ${baseUrl}/config/setupconfig.xml -O /etc/3cxpbx/setupconfig.xml"
+      "cmd [cp]": "touch testfile"
     },
     "processConfig": {
-      "cmd [cp]": "sed 's/SERIAL/${settings.start}/g' /etc/3cxpbx/setupconfig.xml\nsed 's/DOMAIN/${env.domain}/g' /etc/3cxpbx/setupconfig.xml\nsed 's/PASSWORD/${globals.password}/g' /etc/3cxpbx/setupconfig.xml\nsed 's/HOSTNAME/${env.domain}/g' /etc/3cxpbx/setupconfig.xml\nsed 's/FQDN/${env.domain}/g' /etc/3cxpbx/setupconfig.xml "
+      "cmd [cp]": "touch testfile2"
     }
   },
   "success": "/texts/success.md"
