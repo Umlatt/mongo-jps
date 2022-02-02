@@ -37,7 +37,7 @@
       "cloudlets": 16,
       "nodeGroup": "cp",
       "image": "mongo",
-      "extip": flase,
+      "extip": false,
       "env": "JELASTIC_EXPOSE: 8081"
     }
   ],
