@@ -4,33 +4,33 @@
   "id": "mongo5",
   "baseUrl": "https://raw.githubusercontent.com/data-sciences-corporation/mongo-jps/master",
   "description": {
-    "text": "/text/description.md",
+    "text": "text/description.md",
     "short": "A private deployment of mongo 5.0.2"
   },
   "logo": "https://blog.toright.com/wp-content/uploads/2014/08/mongo-db-alternate-logo.png",
-  "name": "Mongo5 - Beta",
+  "name": "Mongo5 - NOT FOR USE",
   "targetRegions": {
     "type": "vz7"
   },
   "globals": {
-    "password": "${fn.password(20)}"
+    "MONGO_INITDB_ROOT_USERNAME" : "mongoadmin",
+    "MONGO_INITDB_ROOT_PASSWORD" : "${fn.password(20)}"
   },
   "settings": {
-    "fields": [
-      {
-        "type": "string",
-        "name": "serial",
-        "caption": "3CX Serial",
-        "default": "0000-1111-2222-3333"
-      }
-    ]
   },
   "nodes": [
     {
       "cloudlets": 16,
       "nodeGroup": "cp",
       "image": "mongo:5.0.2",
-      "extip": true,
+      "extip": false,
+      "env": "JELASTIC_EXPOSE: 8081"
+    },
+    {
+      "cloudlets": 16,
+      "nodeGroup": "cp",
+      "image": "mongo:5.0.2", 
+      "extip": false,
       "env": "JELASTIC_EXPOSE: 8081"
     },
     {
@@ -42,15 +42,15 @@
     }
   ],
   "onInstall": [
-    "getConfig",
-    "processConfig"
+    "step1",
+    "step2"
   ],
   "actions": {
-    "getConfig": {
-      "cmd [cp]": "touch testfile"
+    "step1": {
+      "cmd [cp]": "echo 'NOT FOR USE' > README.md"
     },
-    "processConfig": {
-      "cmd [cp]": "touch testfile2"
+    "step2": {
+      "cmd [cp]": "echo 'This deployment is not intended for public cloud use.' >> README.md"
     }
   },
   "success": "/text/success.md"
