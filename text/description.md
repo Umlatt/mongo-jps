@@ -1,1 +1,1 @@
-# TESTS IMAGE - Do not use
+# TEST IMAGE - Do not use
