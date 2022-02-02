@@ -1,60 +1,57 @@
-type: install
-version: 0.1
-id: mongo5
-name: Mongo 5 Cluster
-homepage: https://github.com/data-sciences-corporation/mongo-jps
-baseUrl: https://raw.githubusercontent.com/data-sciences-corporation/mongo-jps/master
-logo: images/minio-logo-70x70.png
-
-categories: [ apps/file-manager ]
-description:
-  text: |
-    This is a mongo cluster that is only to be used by the platform owners. Please do not use this without the relavant licence agreements.
-  short: |
-    Automated clusterization for a reliable and cost-effective Mongo instance.
-
-globals:
-  dbpassword: ${fn.password}
-  
-settings:
-  fields:
-    - name: nodes
-      caption: Number of nodes
-      type: list
-      inputType: string
-      values:
-        1: 1 node
-        3: 3 nodes
-        5: 5 nodes
-      default: 3
-      required: true
-    
-nodes:
-  count: ${settings.nodes}
-  cloudlets: 16
-  nodeGroup: cp
-  image: mongo
-  env:
-    MONGO_INITDB_ROOT_USERNAME: root
-    MONGO_INITDB_ROOT_PASSWORD: ${globals.dbpassword}
-    PORT: 8081
-  cmd: --help
-  volumes: 
-    - /export/
-  
-ssl: true
-
-onInstall:
-  - build-cluster
-  - restartContainers [cp]
-  
-actions:
-  build-cluster:
-    script: build-cluster.js
-    params:
-      nodeGroup: cp
-      volumePath: /export
-      
-success:
-  text: /text/success.md
-  email: /text/success.md
+{
+  "type": "install",
+  "version": "0.1",
+  "id": "mongo5",
+  "baseUrl": "https://raw.githubusercontent.com/data-sciences-corporation/mongo-jps/master",
+  "description": {
+    "text": "/text/description.md",
+    "short": "3cx PBX"
+  },
+  "logo": "https://blog.toright.com/wp-content/uploads/2014/08/mongo-db-alternate-logo.png",
+  "name": "Mongo5 - Beta",
+  "targetRegions": {
+    "type": "vz7"
+  },
+  "globals": {
+    "password": "${fn.password(20)}"
+  },
+  "settings": {
+    "fields": [
+      {
+        "type": "string",
+        "name": "serial",
+        "caption": "3CX Serial",
+        "default": "0000-1111-2222-3333"
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "cloudlets": 16,
+      "nodeGroup": "cp",
+      "image": "mongo",
+      "extip": true,
+      "env": "JELASTIC_EXPOSE: 8081"
+    },
+    {
+      "cloudlets": 16,
+      "nodeGroup": "cp",
+      "image": "mongo",
+      "extip": true,
+      "env": "JELASTIC_EXPOSE: 8081"
+    }
+  ],
+  "onInstall": [
+    "getConfig",
+    "processConfig"
+  ],
+  "actions": {
+    "getConfig": {
+      "cmd [cp]": "mkdir /etc/3cxpbx\nsed -i -re '/mesg n\ntrue/d' /root/.profile && echo 'if `tty -s`; then  mesg n ; fi' >>/root/.profile\nwget  ${baseUrl}/config/setupconfig.xml -O /etc/3cxpbx/setupconfig.xml"
+    },
+    "processConfig": {
+      "cmd [cp]": "sed 's/SERIAL/${settings.start}/g' /etc/3cxpbx/setupconfig.xml\nsed 's/DOMAIN/${env.domain}/g' /etc/3cxpbx/setupconfig.xml\nsed 's/PASSWORD/${globals.password}/g' /etc/3cxpbx/setupconfig.xml\nsed 's/HOSTNAME/${env.domain}/g' /etc/3cxpbx/setupconfig.xml\nsed 's/FQDN/${env.domain}/g' /etc/3cxpbx/setupconfig.xml "
+    }
+  },
+  "success": "/texts/success.md"
+}
