@@ -5,7 +5,7 @@
   "baseUrl": "https://raw.githubusercontent.com/data-sciences-corporation/mongo-jps/master",
   "description": {
     "text": "/text/description.md",
-    "short": "3cx PBX"
+    "short": "A private deployment of mongo 5.0.2"
   },
   "logo": "https://blog.toright.com/wp-content/uploads/2014/08/mongo-db-alternate-logo.png",
   "name": "Mongo5 - Beta",
@@ -29,14 +29,14 @@
     {
       "cloudlets": 16,
       "nodeGroup": "cp",
-      "image": "mongo",
+      "image": "mongo:5.0.2",
       "extip": true,
       "env": "JELASTIC_EXPOSE: 8081"
     },
     {
       "cloudlets": 16,
       "nodeGroup": "cp",
-      "image": "mongo", 
+      "image": "mongo:5.0.2", 
       "extip": true,
       "env": "JELASTIC_EXPOSE: 8081"
     }
