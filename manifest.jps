@@ -1,44 +1,55 @@
 {
-  "type": "install",
-  "version": "0.1",
-  "id": "mongo5",
-  "baseUrl": "https://raw.githubusercontent.com/data-sciences-corporation/mongo-jps/master",
-  "description": {
-    "text": "text/description.md",
-    "short": "A private deployment of mongo 5.0.2"
-  },
-  "logo": "https://blog.toright.com/wp-content/uploads/2014/08/mongo-db-alternate-logo.png",
-  "name": "Mongo5 - NOT FOR USE",
-  "targetRegions": {
-    "type": "vz7"
-  },
-  "globals": {
-    "MONGO_INITDB_ROOT_USERNAME" : "mongoadmin",
-    "MONGO_INITDB_ROOT_PASSWORD" : "${fn.password(20)}"
-  },
-  "settings": {
-  },
-  "nodes": [
-    {
-      "cloudlets": 16,
-      "nodeGroup": "cp",
-      "image": "mongo:5.0.2",
-      "extip": false,
-      "count" : "3",
-      "env": "JELASTIC_EXPOSE: 8081"
-    }
-  ],
-  "onInstall": [
-    "step1",
-    "step2"
-  ],
-  "actions": {
-    "step1": {
-      "cmd [cp]": "echo 'NOT FOR USE' > README.md"
+    "type": "install",
+    "version": "0.1",
+    "id": "postgresSmaster",
+    "baseUrl": "https://raw.githubusercontent.com/umlatt/postgresql-jps/master",
+    "description": {
+        "text": "text/description.md",
+        "short": "A test deployment of PostgreSQL"
     },
-    "step2": {
-      "cmd [cp]": "echo '${fn.password(20)}' >> README.md"
-    }
-  },
-  "success": "/text/success.md"
+    "logo": "https://logonoid.com/images/postgresql-logo.png",
+    "name": "Postgres - Single Master",
+    "targetRegions": {
+        "type": "vz7"
+    },
+    "globals": {
+        "dbpassword": "${fn.password(20)}"
+    },
+    "settings": {},
+    "nodes": [{
+        "cloudlets": 16,
+        "nodeGroup": "dbs",
+        "image": "postgres",
+        "extip": false,
+        "count": "3",
+        "env": {
+            "JELASTIC_PORTS": "5432,8080",
+            "POSTGRES_PASSWORD": "${globals.dbpassword}"
+        }
+    }],
+    "onInstall": [
+        "step1",
+        "step2",
+        "step3"
+    ],
+    "actions": {
+        "step1": {
+            "cmd [dbs]": [
+                "mkdir /root/dump",
+                "chmod 777 /root/dump"
+                ]
+        },
+        "step2": {
+            "cmd [dbs]": "echo -e '${globals.dbpassword}' >> README.md"
+        },
+        "step3": [{
+            "upload": {
+                "nodeGroup": "dbs",
+                "sourcePath": "https://logonoid.com/images/postgresql-logo.png",
+                "destPath": "/root/dump/"
+            }
+        }]
+    },
+    "skipNodeEmails": "true",
+    "success": "text/success.md"
 }
