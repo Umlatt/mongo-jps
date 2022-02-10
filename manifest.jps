@@ -41,37 +41,29 @@
     "onInstall": [
         "step1-agents",
         "step2-master",
-        "step3-slaves"
+        "step3-slaves",
+        "step4-failoverautomation"
     ],
     "actions": {
         "step1-agents": {
-            "upload": {
-                "nodeGroup": "*",
-                "sourcePath": "https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/deploy_agents.sh",
-                "destPath": "/root/deploy_agents.sh"
-            },
-            "cmd [*]" : "echo deploy_agents.sh | bash"
+            "cmd [*]" : [
+                "echo -e '${globals.dbpassword} - ${globals.reppassword}' >> README.md",
+                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/deploy_agents.sh | bash"
+            ]
         },
         "step2-master": [{
-            "upload": {
-                "nodeGroup": "pgmaster",
-                "sourcePath": "https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-master.sh",
-                "destPath": "/root/init-master.sh"
-            },
             "cmd [pgmaster]": [
-                "echo -e '${globals.dbpassword} - ${globals.reppassword}' >> README.md",
-                "echo /root/init-master.sh | bash"
+                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-master.sh | bash"
             ]
         }],
         "step3-slaves": [{
-            "upload": {
-                "nodeGroup": "pgslaves",
-                "sourcePath": "https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-slave.sh",
-                "destPath": "/root/init-slave.sh"
-            },
             "cmd [pgslaves]": [
-                "echo -e '${globals.dbpassword} - ${globals.reppassword}' >> README.md",
-                "echo /root/init-slaves.sh | bash"
+                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-slave.sh | bash"
+            ]
+        }],
+        "step4-failoverautomation": [{
+            "cmd [*]": [
+                "echo 'Do automation' >> README.md"
             ]
         }]
     },
