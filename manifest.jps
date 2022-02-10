@@ -54,9 +54,10 @@
                 {
                   "nodeGroup": "*",
                   "sourcePath" : "https://raw.githubusercontent.com/umlatt/postgresql-jps/master/configs/postgresql.conf",
-                  "destPath" : "/var/lib/postgresql/data/postgresql.conf"
+                  "destPath" : "/root/postgresql.conf"
                 }
-              ]
+              ],
+              "cmd [*]" : "cp /root/postgresql.conf /var/lib/postgresql/data/postgresql.conf"
         },
         "step2-master": [{
             "cmd [pgmaster]": [
