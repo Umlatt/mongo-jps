@@ -49,7 +49,14 @@
             "cmd [*]" : [
                 "echo -e '${globals.dbpassword} - ${globals.reppassword}' >> README.md",
                 "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/deploy_agents.sh | bash"
-            ]
+            ],
+            "upload": [
+                {
+                  "nodeGroup": "*",
+                  "sourcePath" : "https://raw.githubusercontent.com/umlatt/postgresql-jps/master/configs/postgresql.conf",
+                  "destPath" : "/var/lib/postgresql/data/postgresql.conf"
+                }
+              ]
         },
         "step2-master": [{
             "cmd [pgmaster]": [
