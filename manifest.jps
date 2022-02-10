@@ -48,17 +48,10 @@
         "step1-agents": {
             "cmd [*]" : [
                 "echo -e '${globals.dbpassword} - ${globals.reppassword}' >> README.md",
-                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/deploy_agents.sh | bash"
-            ],
-            "upload": [
-                {
-                  "nodeGroup": "*",
-                  "sourcePath" : "https://raw.githubusercontent.com/umlatt/postgresql-jps/master/configs/postgresql.conf",
-                  "destPath" : "/root/postgresql.conf"
-                }
-              ],
-              "cmd [*]" : "cp /root/postgresql.conf /var/lib/postgresql/data/postgresql.conf"
-        },
+                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/deploy_agents.sh | bash",
+                "wget https://raw.githubusercontent.com/umlatt/postgresql-jps/master/configs/postgresql.conf",
+                "cp /root/postgresql.conf /var/lib/postgresql/data/postgresql.conf"
+            ]},
         "step2-master": [{
             "cmd [pgmaster]": [
                 "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-master.sh | bash"
