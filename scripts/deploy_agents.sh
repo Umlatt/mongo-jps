@@ -1,2 +1,2 @@
 #!/bin/bash
-# ToDo
+echo "Installing ABSA agents..." >> README.md
