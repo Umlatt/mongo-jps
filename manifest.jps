@@ -1,7 +1,7 @@
 {
     "type": "install",
     "version": "0.1",
-    "id": "postgresSmaster",
+    "id": "postgresMasterReplica",
     "baseUrl": "https://raw.githubusercontent.com/umlatt/postgresql-jps/master",
     "description": {
         "text": "text/description.md",
@@ -13,41 +13,66 @@
         "type": "vz7"
     },
     "globals": {
-        "dbpassword": "${fn.password(20)}"
+        "dbpassword": "${fn.password(20)}",
+        "reppassword": "${fn.password(20)}"
     },
     "settings": {},
     "nodes": [{
         "cloudlets": 16,
-        "nodeGroup": "dbs",
+        "nodeGroup": "pgmaster",
         "image": "postgres",
         "extip": false,
-        "count": "3",
+        "count": "1",
         "env": {
-            "JELASTIC_PORTS": "5432,8080",
+            "JELASTIC_PORTS": "5432",
+            "POSTGRES_PASSWORD": "${globals.dbpassword}"
+        }
+    }, {
+        "cloudlets": 16,
+        "nodeGroup": "pgslaves",
+        "image": "postgres",
+        "extip": false,
+        "count": "1",
+        "env": {
+            "JELASTIC_PORTS": "5432",
             "POSTGRES_PASSWORD": "${globals.dbpassword}"
         }
     }],
     "onInstall": [
-        "step1",
-        "step2",
-        "step3"
+        "step1-agents",
+        "step2-master",
+        "step3-slaves"
     ],
     "actions": {
-        "step1": {
-            "cmd [dbs]": [
-                "mkdir /root/dump",
-                "chmod 777 /root/dump"
-                ]
-        },
-        "step2": {
-            "cmd [dbs]": "echo -e '${globals.dbpassword}' >> README.md"
-        },
-        "step3": [{
+        "step1-agents": {
             "upload": {
-                "nodeGroup": "dbs",
-                "sourcePath": "https://logonoid.com/images/postgresql-logo.png",
-                "destPath": "/root/dump/"
-            }
+                "nodeGroup": "*",
+                "sourcePath": "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/deploy_agents.sh",
+                "destPath": "/root/deploy_agents.sh"
+            },
+            "cmd [*]" : "echo deploy_agents.sh | bash"
+        },
+        "step2-master": [{
+            "upload": {
+                "nodeGroup": "pgmaster",
+                "sourcePath": "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-master.sh",
+                "destPath": "/root/init-master.sh"
+            },
+            "cmd [pgmaster]": [
+                "echo -e '${globals.dbpassword} - ${globals.reppassword}' >> README.md",
+                "echo /root/init-master.sh | bash"
+            ]
+        }],
+        "step3-slaves": [{
+            "upload": {
+                "nodeGroup": "pgslaves",
+                "sourcePath": "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-slave.sh",
+                "destPath": "/root/init-slave.sh"
+            },
+            "cmd [pgslaves]": [
+                "echo -e '${globals.dbpassword} - ${globals.reppassword}' >> README.md",
+                "echo /root/init-slaves.sh | bash"
+            ]
         }]
     },
     "skipNodeEmails": "true",
