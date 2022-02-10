@@ -47,7 +47,7 @@
         "step1-agents": {
             "upload": {
                 "nodeGroup": "*",
-                "sourcePath": "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/deploy_agents.sh",
+                "sourcePath": "https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/deploy_agents.sh",
                 "destPath": "/root/deploy_agents.sh"
             },
             "cmd [*]" : "echo deploy_agents.sh | bash"
@@ -55,7 +55,7 @@
         "step2-master": [{
             "upload": {
                 "nodeGroup": "pgmaster",
-                "sourcePath": "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-master.sh",
+                "sourcePath": "https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-master.sh",
                 "destPath": "/root/init-master.sh"
             },
             "cmd [pgmaster]": [
@@ -66,7 +66,7 @@
         "step3-slaves": [{
             "upload": {
                 "nodeGroup": "pgslaves",
-                "sourcePath": "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-slave.sh",
+                "sourcePath": "https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-slave.sh",
                 "destPath": "/root/init-slave.sh"
             },
             "cmd [pgslaves]": [
