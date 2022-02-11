@@ -49,17 +49,20 @@
             "cmd [*]" : [
                 "echo -e '${globals.dbpassword} - ${globals.reppassword}' >> README.md",
                 "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/deploy_agents.sh | bash",
-                "wget https://raw.githubusercontent.com/umlatt/postgresql-jps/master/configs/postgresql.conf",
-                "cp /root/postgresql.conf /var/lib/postgresql/data/postgresql.conf"
+                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/configs/postgresql.conf > /var/lib/postgresql/data/postgresql.conf",
+                "#wget https://raw.githubusercontent.com/umlatt/postgresql-jps/master/configs/postgresql.conf",
+                "#cp /root/postgresql.conf /var/lib/postgresql/data/postgresql.conf",
+                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-all.sh | bash"
+                
             ]},
         "step2-master": [{
             "cmd [pgmaster]": [
-                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-master.sh | bash"
+                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-master.sh | bash"
             ]
         }],
         "step3-slaves": [{
             "cmd [pgslaves]": [
-                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-slave.sh | bash"
+                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-slave.sh | bash"
             ]
         }],
         "step4-failoverautomation": [{
