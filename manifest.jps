@@ -47,7 +47,7 @@
     "actions": {
         "step1-agents": {
             "cmd [*]" : [
-                "echo -e '${globals.reppassword} > replication_password",
+                "echo '${globals.reppassword}' > replication_password",
                 "echo -e 'Install Log\n\n${globals.dbpassword}\n' >> README.md",
                 "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/deploy_agents.sh | bash",
                 "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/configs/postgresql.conf > /var/lib/postgresql/data/postgresql.conf",
