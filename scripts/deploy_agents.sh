@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "Step 1 - Agents - Installing ABSA agents..." >> README.md
+echo "Deploying agent - [ToDo]..." >> INSTALL_LOG
