@@ -49,12 +49,12 @@
         "step1-agents": {
             "cmd [*]" : [
                 "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/deploy_agents.sh | bash",
-                "echo 'Step 1 - Agents - Installed ABSA monitoring agents' > INSTALL_LOG"            
+                "echo '\nStep 1 - Agents - Installed ABSA monitoring agents' > INSTALL_LOG"            
             ]},
         "step2-postgres-all": {
                 "cmd [*]" : [
                     "echo '${globals.reppassword}' > replication_password",
-                    "echo -e 'Install Log\n\n${globals.dbpassword}\n' >> INSTALL_LOG",
+                    "echo '- ${globals.dbpassword} -' >> INSTALL_LOG",
                     "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/configs/postgresql.conf > /var/lib/postgresql/data/postgresql.conf",
                     "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-all.sh | bash",
                     "echo 'Step 2 - Postgres - Configured generic settings' >> INSTALL_LOG"
