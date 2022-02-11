@@ -50,8 +50,6 @@
                 "echo -e '${globals.dbpassword} - ${globals.reppassword}' >> README.md",
                 "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/deploy_agents.sh | bash",
                 "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/configs/postgresql.conf > /var/lib/postgresql/data/postgresql.conf",
-                "#wget https://raw.githubusercontent.com/umlatt/postgresql-jps/master/configs/postgresql.conf",
-                "#cp /root/postgresql.conf /var/lib/postgresql/data/postgresql.conf",
                 "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-all.sh | bash"
                 
             ]},
