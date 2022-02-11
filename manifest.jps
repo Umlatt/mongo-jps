@@ -65,7 +65,7 @@
         }],
         "step4-failoverautomation": [{
             "cmd [*]": [
-                "echo 'Do automation' >> README.md"
+                "echo 'Step 4 - Do automation' >> README.md"
             ]
         }]
     },
