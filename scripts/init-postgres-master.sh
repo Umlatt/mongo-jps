@@ -5,6 +5,8 @@ echo "Creating replication user..." >> INSTALL_LOG
 mkdir /var/lib/postgresql/archive
 chown postgres:postgres /var/lib/postgresql/archive
 # PostgreSQL - Create the replication user
-gosu postgres postgres --single <<-EOSQL
-   CREATE ROLE repuser PASSWORD 'md5${password}' REPLICATION LOGIN;
-EOSQL
+#gosu postgres postgres --single <<-EOSQL
+#   CREATE ROLE repuser PASSWORD 'md5${1234}' REPLICATION LOGIN;
+#EOSQL
+echo "Using password: $password"
+sudo -u postgres -H -- psql -c "CREATE ROLE repuser PASSWORD 'md5${password}' REPLICATION LOGIN;"
