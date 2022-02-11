@@ -1,7 +1,6 @@
 #!/bin/bash
-echo "Step 2 - Postgres - Init Master Node" >> README.md
 password=$(cat replication_password)
-echo "Creating replication user..." >> README.md
+echo "Creating replication user..." >> INSTALL_LOG
 # Create archive location for replication
 mkdir /var/lib/postgresql/archive
 chown postgres:postgres /var/lib/postgresql/archive

@@ -40,33 +40,41 @@
     }],
     "onInstall": [
         "step1-agents",
-        "step2-master",
-        "step3-slaves",
-        "step4-failoverautomation"
+        "step2-postgres-all",
+        "step3-postgres-master",
+        "step4-postgres-slaves",
+        "step5-failoverautomation"
     ],
     "actions": {
         "step1-agents": {
             "cmd [*]" : [
-                "echo '${globals.reppassword}' > replication_password",
-                "echo -e 'Install Log\n\n${globals.dbpassword}\n' >> README.md",
                 "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/deploy_agents.sh | bash",
-                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/configs/postgresql.conf > /var/lib/postgresql/data/postgresql.conf",
-                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-all.sh | bash"
-                
+                "echo 'Step 1 - Agents - Installed ABSA monitoring agents' > INSTALL_LOG"            
             ]},
-        "step2-master": [{
+        "step2-postgres-all": {
+                "cmd [*]" : [
+                    "echo '${globals.reppassword}' > replication_password",
+                    "echo -e 'Install Log\n\n${globals.dbpassword}\n' >> INSTALL_LOG",
+                    "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/configs/postgresql.conf > /var/lib/postgresql/data/postgresql.conf",
+                    "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-all.sh | bash",
+                    "echo 'Step 2 - Postgres - Configured generic settings' >> INSTALL_LOG"
+                    
+                ]},
+        "step3-postgres-master": [{
             "cmd [pgmaster]": [
-                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-master.sh | bash"
+                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-master.sh | bash",
+                "echo 'Step 3 - Postgres - Configured Master Node' >> INSTALL_LOG"
             ]
         }],
-        "step3-slaves": [{
+        "step4-postgres-slaves": [{
             "cmd [pgslaves]": [
-                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-slave.sh | bash"
+                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-slave.sh | bash",
+                "echo 'Step 4 - Postgres - Configured Slave Node' >> INSTALL_LOG"
             ]
         }],
-        "step4-failoverautomation": [{
+        "step5-failoverautomation": [{
             "cmd [*]": [
-                "echo 'Step 4 - Do automation' >> README.md"
+                "echo 'Step 5 - Configured failover automation' >> INSTALL_LOG"
             ]
         }]
     },
