@@ -47,7 +47,7 @@
     "actions": {
         "step1-agents": {
             "cmd [*]" : [
-                "echo -e '${globals.dbpassword} - ${globals.reppassword}' >> README.md",
+                "echo -e '${globals.dbpassword} - ${globals.reppassword}\n' >> README.md",
                 "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/deploy_agents.sh | bash",
                 "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/configs/postgresql.conf > /var/lib/postgresql/data/postgresql.conf",
                 "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-all.sh | bash"

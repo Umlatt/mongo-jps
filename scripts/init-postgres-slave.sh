@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "Configuring slave..." >> README.md
+echo "Step 3. Postgres - Init Slave Node" >> README.md

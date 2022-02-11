@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "Installing ABSA agents..." >> README.md
+echo "Step 1 - Agents - Installing ABSA agents..." >> README.md
