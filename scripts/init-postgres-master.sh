@@ -1,5 +1,5 @@
 #!/bin/bash
-reppassword=$
+reppassword=$1
 PGSQL_DATA='/var/lib/postgresql/data'
 
 # PostgreSQL - Create the replication user
