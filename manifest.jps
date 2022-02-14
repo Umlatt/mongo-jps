@@ -47,28 +47,30 @@
     ],
     "actions": {
         "step1-agents": {
-            "cmd [*]" : [
-                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/deploy_agents.sh | bash",
-                "echo '\nStep 1 - Agents - Installed ABSA monitoring agents' > INSTALL_LOG"            
-            ]},
+            "cmd [*]": [
+                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/deploy_agents.sh | sh",
+                "echo '\nStep 1 - Agents - Installed ABSA monitoring agents' > INSTALL_LOG"
+            ]
+        },
         "step2-postgres-all": {
-                "cmd [*]" : [
-                    "echo '${globals.reppassword}' > replication_password",
-                    "echo '- ${globals.dbpassword} -' >> INSTALL_LOG",
-                    "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/configs/postgresql.conf > /var/lib/postgresql/data/postgresql.conf",
-                    "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-all.sh | bash",
-                    "echo 'Step 2 - Postgres - Configured generic settings' >> INSTALL_LOG"
-                    
-                ]},
+            "cmd [*]": [
+                "echo '${globals.reppassword}' > replication_password",
+                "echo '- ${globals.dbpassword} -' >> INSTALL_LOG",
+                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/configs/postgresql.conf > /var/lib/postgresql/data/postgresql.conf",
+                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-all.sh | sh",
+                "echo 'Step 2 - Postgres - Configured generic settings' >> INSTALL_LOG"
+
+            ]
+        },
         "step3-postgres-master": [{
             "cmd [pgmaster]": [
-                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-master.sh | bash",
+                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-master.sh | sh -s ${globals.reppassword}",
                 "echo 'Step 3 - Postgres - Configured Master Node' >> INSTALL_LOG"
             ]
         }],
         "step4-postgres-slaves": [{
             "cmd [pgslaves]": [
-                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-slave.sh | bash",
+                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-slave.sh | sh -s '${globals.reppassword}' '${nodes.pgmaster[0].address}' ",
                 "echo 'Step 4 - Postgres - Configured Slave Node' >> INSTALL_LOG"
             ]
         }],
