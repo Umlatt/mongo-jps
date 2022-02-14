@@ -54,8 +54,6 @@
         },
         "step2-postgres-all": {
             "cmd [*]": [
-                "echo '${globals.reppassword}' > replication_password",
-                "echo '- ${globals.dbpassword} -' >> INSTALL_LOG",
                 "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/configs/postgresql.conf > /var/lib/postgresql/data/postgresql.conf",
                 "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-all.sh | sh",
                 "echo 'Step 2 - Postgres - Configured generic settings' >> INSTALL_LOG"
