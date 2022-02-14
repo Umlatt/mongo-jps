@@ -5,10 +5,14 @@ PGSQL_DATA='/var/lib/postgresql/data'
 
 # Stop database services
 echo " Stopping DB" >> INSTALL_LOG
-sudo /etc/init.d/postgresql stop
+sudo systemctl stop postgresql
 # Clear current data directory (excluding posgresql.conf & pg_hba.conf)
 echo " Cleaning old data directory [$PGSQL_DATA]" >> INSTALL_LOG
-sudo rm -rf !($PGSQL_DATA/postgresql.conf|$PGSQL_DATA/pg_hba.conf)
+sudo cp $PGSQL_DATA/postgresql.conf /tmp/.
+sudo cp $PGSQL_DATA/pg_hba.conf /tmp/.
+sudo rm -rf $PGSQL_DATA/*
+sudo mv /tmp/postgresql.conf $PGSQL_DATA/.
+sudo mv /tmp_pg_hba.conf $PGSQL_DATA/.
 
 # Configure node to host_standby node
 echo " Adding slave config to [$PGSQL_DATA/postgresql.conf]" >> INSTALL_LOG
@@ -21,5 +25,5 @@ sudo touch $PGSQL_DATA/standby.signal
 
 # Start database services
 echo " Starting DB" >> INSTALL_LOG
-sudo /etc/init.d/postgresql start
+sudo systemctl start postgresql
 
