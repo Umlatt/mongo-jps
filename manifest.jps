@@ -63,13 +63,15 @@
         "step3-postgres-master": [{
             "cmd [pgmaster]": [
                 "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-master.sh | sh -s ${globals.reppassword}",
-                "echo 'Step 3 - Postgres - Configured Master Node' >> INSTALL_LOG"
+                "echo 'Step 3 - Postgres - Configured Master Node' >> INSTALL_LOG",
+                "touch MASTER.NODE"
             ]
         }],
         "step4-postgres-slaves": [{
             "cmd [pgslaves]": [
                 "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-slave.sh | sh -s '${globals.reppassword}' '${nodes.pgmaster[0].address}' ",
-                "echo 'Step 4 - Postgres - Configured Slave Node' >> INSTALL_LOG"
+                "echo 'Step 4 - Postgres - Configured Slave Node' >> INSTALL_LOG",
+                "touch SLAVE.NODE"
             ]
         }],
         "step5-failoverautomation": [{
