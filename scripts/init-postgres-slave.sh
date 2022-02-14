@@ -17,7 +17,9 @@ echo " Sync data from master db." >> INSTALL_LOG
 sudo -u postgres pg_basebackup --pgdata $PGSQL_DATA \
     --format=p --write-recovery-conf --checkpoint=fast \
     --label=mffb --progress --host=$masterip --port=5432 \
-    --username=repuser --password=$reppassword
+    --username=repuser
+
+sudo -u postgres pg_basebackup -h ${masterip} -D ${PGSQL_DATA} -U repuser -v -P;
 
 # Configure node to host_standby node
 #echo " Adding slave config to [$PGSQL_DATA/postgresql.conf]" >> INSTALL_LOG
@@ -29,7 +31,7 @@ sudo -u postgres pg_basebackup --pgdata $PGSQL_DATA \
 #sudo touch $PGSQL_DATA/standby.signal 
 
 echo " Add replication settings to postgresql conf" >> INSTALL_LOG
-echo "\n\n# Standby" >> $PGSQL_DATA/postgresql.conf
+echo "# Standby" >> $PGSQL_DATA/postgresql.conf
 echo "primary_conninfo = 'user=repuser port=5432 host=$masterip application_name=replica'">> $PGSQL_DATA/postgresql.conf
 echo "primary_slot_name = 'repl_slot'" >> $PGSQL_DATA/postgresql.conf
 
