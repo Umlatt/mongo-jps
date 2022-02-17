@@ -26,6 +26,3 @@ echo "primary_slot_name = 'repl_slot'" >> $PGSQL_DATA/postgresql.conf
 echo " Starting DB" >> INSTALL_LOG
 sudo systemctl start postgresql
 sudo -u postgres /usr/lib/postgresql/14/bin/pg_ctl start -D $PGSQL_DATA
-
-mkdir WHY_IS_THIS_HERE
-touch DELETE_THIS_FILE
