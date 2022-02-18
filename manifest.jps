@@ -86,7 +86,8 @@
                 "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/check_master.sh > check_master.sh",
                 "echo '#!/bin/bash\nsudo nohup ./check_master.sh ${nodes.pgmaster[0].address} &' >> automation.sh",
                 "chmod +x *",
-                "cat automation.sh | sh"
+                "cat automation.sh | sh",
+                "echo '----> All done' >> INSTALL_LOG"
             ]
         }]
     },
