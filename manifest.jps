@@ -81,7 +81,7 @@
                 }
         ]}],
         "step5-failoverautomation": [{
-            "cmd [*]": [
+            "cmd [pgslaves]": [
                 "echo 'Step 5 - Configuring failover automation' >> INSTALL_LOG",
                 "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/check_master.sh > check_master.sh",
                 "echo '#!/bin/bash\nsudo nohup ./check_master.sh ${nodes.pgmaster[0].address} &' >> automation.sh",
