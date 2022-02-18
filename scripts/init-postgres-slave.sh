@@ -25,4 +25,4 @@ echo "primary_slot_name = 'repl_slot'" >> $PGSQL_DATA/postgresql.conf
 # Start database services
 echo " Starting DB" >> INSTALL_LOG
 sudo systemctl start postgresql
-sudo -u postgres /usr/lib/postgresql/14/bin/pg_ctl start -D $PGSQL_DATA
+sudo -u postgres /usr/lib/postgresql/14/bin/pg_ctl start -D $PGSQL_DATA &> INSTALL_LOG
