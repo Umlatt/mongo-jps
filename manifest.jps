@@ -83,9 +83,7 @@
         "step5-failoverautomation": [{
             "cmd [*]": [
                 "echo 'Step 5 - Configured failover automation' >> INSTALL_LOG",
-                "wget https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/check_master.sh",
-                "chmod +x check_master.sh",
-                "./check_master.sh '${nodes.pgmaster[0].address}' &"
+                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/check_master.sh | sh -s '${nodes.pgmaster[0].address}' &"
             ]
         }]
     },
