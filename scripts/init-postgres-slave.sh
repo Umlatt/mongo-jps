@@ -18,7 +18,7 @@ sudo -u postgres pg_basebackup --pgdata $PGSQL_DATA \
 #sudo -u postgres pg_basebackup -h ${masterip} -D ${PGSQL_DATA} -U repuser -v -P;
 
 echo " Add replication settings to postgresql conf" >> INSTALL_LOG
-echo "# Standby" >> $PGSQL_DATA/postgresql.conf
+echo "\n# Standby" >> $PGSQL_DATA/postgresql.conf
 echo "primary_conninfo = 'user=repuser port=5432 host=$masterip application_name=replica'">> $PGSQL_DATA/postgresql.conf
 echo "primary_slot_name = 'repl_slot'" >> $PGSQL_DATA/postgresql.conf
 
