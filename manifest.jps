@@ -74,8 +74,12 @@
                 "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-slave.sh | sh -s '${globals.reppassword}' '${nodes.pgmaster[0].address}' ",
                 "echo 'Step 4 - Postgres - Configured Slave Node' >> INSTALL_LOG",
                 "touch SLAVE.NODE"
-            ]
-        }],
+            ],
+            "restartContainers": [
+                {
+                  "nodeGroup": "pgslaves"
+                }
+        ]}],
         "step5-failoverautomation": [{
             "cmd [*]": [
                 "echo 'Step 5 - Configured failover automation' >> INSTALL_LOG"
