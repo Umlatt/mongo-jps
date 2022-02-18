@@ -44,8 +44,7 @@
         "step1-agents",
         "step2-postgres-all",
         "step3-postgres-master",
-        "step4-postgres-slaves",
-        "step5-failoverautomation"
+        "step4-postgres-slaves"
     ],
     "actions": {
         "step1-agents": {
