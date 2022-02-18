@@ -34,7 +34,7 @@
         "displayName" : "Slave Nodes",
         "image": "postgres",
         "extip": false,
-        "count": "2",
+        "count": "1",
         "env": {
             "JELASTIC_PORTS": "5432",
             "POSTGRES_PASSWORD": "${globals.dbpassword}"
