@@ -1,95 +1,53 @@
 {
     "type": "install",
     "version": "0.1",
-    "id": "postgresMasterReplica",
-    "baseUrl": "https://raw.githubusercontent.com/umlatt/postgresql-jps/master",
-    "description": {
+    "id": "threeCx",
+    "baseUrl": "https://raw.githubusercontent.com/data-sciences-corporation/3cx-jps/master",
+    "description":
+    {
         "text": "text/description.md",
-        "short": "A test deployment of PostgreSQL"
+        "short": "A test deployment of 3CX"
     },
-    "logo": "https://logonoid.com/images/postgresql-logo.png",
-    "name": "Postgres - Single Master",
-    "targetRegions": {
+    "logo": "https://www.pinclipart.com/picdir/big/366-3669563_3cx-phone-system-logo-3cx-logo-png-clipart.png",
+    "name": "ThreeCX",
+    "targetRegions":
+    {
         "type": "vz7"
     },
-    "globals": {
-        "dbpassword": "${fn.password(20)}",
-        "reppassword": "${fn.password(20)}"
+    "globals":
+    {
+        "password": "${fn.password(20)}"
     },
-    "settings": {},
-    "nodes": [{
-        "cloudlets": 16,
-        "nodeGroup": "pgmaster",
-        "displayName" : "Master Nodes",
-        "image": "postgres",
-        "extip": false,
-        "count": "1",
-        "env": {
-            "JELASTIC_PORTS": "5432",
-            "POSTGRES_PASSWORD": "${globals.dbpassword}"
+    "settings":
+    {},
+    "nodes":
+    [
+        {
+            "cloudlets": 16,
+            "nodeType": "dockerengine",
+            "nodeGroup": "3cx",
+            "extip": true,
+            "count": "1",
+            "env":
+            {
+                "JELASTIC_PORTS": "443, 5001, 5015, 5060, 5061, 5090, 2528"
+            }
         }
-    }, {
-        "cloudlets": 16,
-        "nodeGroup": "pgslaves",
-        "displayName" : "Slave Nodes",
-        "image": "postgres",
-        "extip": false,
-        "count": "1",
-        "env": {
-            "JELASTIC_PORTS": "5432",
-            "POSTGRES_PASSWORD": "${globals.dbpassword}"
-        }
-    }],
-    "onInstall": [
-        "step1-agents",
-        "step2-postgres-all",
-        "step3-postgres-master",
-        "step4-postgres-slaves",
-        "step5-failoverautomation"
     ],
-    "actions": {
-        "step1-agents": {
-            "cmd [*]": [
-                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/deploy_agents.sh | sh",
-                "echo '\nStep 1 - Agents - Installed ABSA monitoring agents' > INSTALL_LOG"
+    "onInstall":
+    [
+        "deploy3cx"
+    ],
+    "actions":
+    {
+        "deploy3cx":
+        {
+            "cmd [3cx]":
+            [
+                "echo Starting > INSTALL_LOG",
+                "curl -fsS https://raw.githubusercontent.com/data-sciences-corporation/3cx-jps/main/scripts/deploy3cx.sh | sh -s '${nodes.3cx[0].url}' '${nodes.3cx[0].address}' "
             ]
-        },
-        "step2-postgres-all": {
-            "cmd [*]": [
-                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/configs/postgresql.conf > /var/lib/postgresql/data/postgresql.conf",
-                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-all.sh | sh",
-                "echo 'Step 2 - Postgres - Configured generic settings' >> INSTALL_LOG"
-
-            ]
-        },
-        "step3-postgres-master": [{
-            "cmd [pgmaster]": [
-                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-master.sh | sh -s ${globals.reppassword}",
-                "echo 'Step 3 - Postgres - Configured Master Node' >> INSTALL_LOG",
-                "touch MASTER.NODE"
-            ]
-        }],
-        "step4-postgres-slaves": [{
-            "cmd [pgslaves]": [
-                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/init-postgres-slave.sh | sh -s '${globals.reppassword}' '${nodes.pgmaster[0].address}' ",
-                "echo 'Step 4 - Postgres - Configured Slave Node' >> INSTALL_LOG",
-                "touch SLAVE.NODE"
-            ],
-            "restartContainers": [
-                {
-                  "nodeGroup": "pgslaves"
-                }
-        ]}],
-        "step5-failoverautomation": [{
-            "cmd [pgslaves]": [
-                "echo 'Step 5 - Configuring failover automation' >> INSTALL_LOG",
-                "curl https://raw.githubusercontent.com/umlatt/postgresql-jps/master/scripts/check_master.sh > check_master.sh",
-                "echo '#!/bin/bash\nsudo nohup ./check_master.sh ${nodes.pgmaster[0].address} &' >> automation.sh",
-                "chmod +x *",
-                "cat automation.sh | sh",
-                "echo '> All done' >> INSTALL_LOG"
-            ]
-        }]
+        }
     },
     "skipNodeEmails": "true",
     "success": "text/success.md"
